@@ -1,0 +1,16 @@
+{
+  "name": "js-ai-interface",
+  "devDependencies": {
+    "sass": "^1.79.1",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.6"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "groq-sdk": "^0.7.0"
+  }
+}
