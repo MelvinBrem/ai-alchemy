@@ -1,5 +1,10 @@
-@import "reset";
+@import "_reset";
 
 body {
-  background: #2d2b2f;
+  --bs-body-bg: #303033;
+  --bs-body-color: #fff;
+}
+
+.item {
+  border: solid 1px white;
 }

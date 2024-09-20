@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 
-import "./../scss/style.scss";
+import "../scss/style.scss";
 import "./../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const groq = new Groq({
