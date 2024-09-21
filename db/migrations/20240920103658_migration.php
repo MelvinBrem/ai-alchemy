@@ -23,12 +23,14 @@ final class Migration extends AbstractMigration
         $table
             ->addColumn('slug', 'string', ['limit' => 64, 'null' => false])
             ->addColumn('name', 'string', ['limit' => 64])
+            ->addColumn('initial', 'boolean', ['default' => false])
+            ->addColumn('description', 'string', ['limit' => 255, 'null' => true])
             ->create();
 
-        $table = $this->table('combinations');
-        $table->addColumn('item_a', 'string', ['limit' => 64])
+        $table = $this->table('combinations', ['id' => false, 'primary_key' => ['item_a', 'item_b']]);
+        $table->addColumn('item_a', 'string', ['limit' => 64, 'null' => false])
             ->addForeignKey('item_a', 'items', 'slug', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
-            ->addColumn('item_b', 'string', ['limit' => 64])
+            ->addColumn('item_b', 'string', ['limit' => 64, 'null' => false])
             ->addForeignKey('item_b', 'items', 'slug', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
             ->addColumn('result', 'string', ['limit' => 64])
             ->addForeignKey('result', 'items', 'slug', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])

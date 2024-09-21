@@ -19,36 +19,48 @@ class ItemSeeder extends AbstractSeed
         $itemData = [
             [
                 'slug' => 'earth',
-                'name' => 'Earth'
+                'name' => 'Earth',
+                'initial' => true,
+                'description' => 'Dirty and solid'
             ],
             [
                 'slug' => 'wind',
-                'name' => 'Wind'
+                'name' => 'Wind',
+                'initial' => true,
+                'description' => 'Invisible and light'
             ],
             [
                 'slug' => 'fire',
-                'name' => 'Fire'
+                'name' => 'Fire',
+                'initial' => true,
+                'description' => 'Hot and dangerous'
             ],
             [
                 'slug' => 'water',
-                'name' => 'Water'
+                'name' => 'Water',
+                'initial' => true,
+                'description' => 'Wet and fluid'
             ],
             // Combinations
             [
                 'slug' => 'dust',
-                'name' => 'Dust'
+                'name' => 'Dust',
+                'description' => 'Dry and dirty'
             ],
             [
                 'slug' => 'mud',
-                'name' => 'Mud'
+                'name' => 'Mud',
+                'description' => 'Wet and dirty'
             ],
             [
                 'slug' => 'steam',
-                'name' => 'Steam'
+                'name' => 'Steam',
+                'description' => 'Hot and wet'
             ],
             [
                 'slug' => 'lava',
-                'name' => 'Lava'
+                'name' => 'Lava',
+                'description' => 'Hot and liquid'
             ],
         ];
 

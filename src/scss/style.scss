@@ -1,10 +1,27 @@
 @import "_reset";
 
 body {
-  --bs-body-bg: #303033;
-  --bs-body-color: #fff;
+  --bs-body-bg: #fff;
+  --bs-body-color: #333;
+  --bs-border-color: #333;
 }
 
 .item {
-  border: solid 1px white;
+  border: solid 1px var(--bs-border-color);
+  padding: 0.25rem 0.5rem;
+  width: fit-content;
+}
+
+.item-list {
+  border: solid 1px var(--bs-border-color);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.item-container {
+  border: solid 1px var(--bs-border-color);
+  height: 100%;
+  width: 100%;
 }

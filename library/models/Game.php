@@ -18,13 +18,13 @@ class Game
         $this->database = new Database();
     }
 
-    private function set_items(): void
-    {
-        $items = $this->database->query('SELECT * FROM items');
-    }
-
     public function get_items()
     {
         return $this->database->query('SELECT * FROM items');
+    }
+
+    public function get_combinations()
+    {
+        return $this->database->query('SELECT * FROM combinations');
     }
 }

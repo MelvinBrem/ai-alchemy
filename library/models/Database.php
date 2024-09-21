@@ -25,7 +25,7 @@ class Database
             $this->conn = new \PDO('mysql:host=' . $this->host . ';dbname=' . $this->name, $this->user, $this->pass);
             $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            dump('Connection failed: ' . $e->getMessage());
+            error_log('Connection failed: ' . $e->getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ class Database
             $stmt->setFetchMode(\PDO::FETCH_ASSOC);
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
-            dump('Query failed: ' . $e->getMessage());
+            error_log('Query failed: ' . $e->getMessage());
         }
     }
 }

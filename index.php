@@ -14,12 +14,23 @@ require_once 'library/bootstrap.php';
 </head>
 
 <body>
-  <div id="container">
-    <textarea name="test" id="test"></textarea>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-12 col-md-3">
+        <div class="item-list" id="item-list">
+        </div>
+      </div>
+      <div class="col-12 col-md-9">
+        <div class="item-container" id="item-container">
+        </div>
+      </div>
+    </div>
+
   </div>
-  <template id="itemTemplate">
+
+  <div id="item-template">
     <div class="item"></div>
-  </template>
+  </div>
 </body>
 
 </html>
