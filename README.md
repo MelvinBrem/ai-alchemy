@@ -26,4 +26,4 @@ yarn dev
 
 ## How to play
 
-Add any combination of items (up to four) to the right area and click merge.
+Add any combination of items to the right area and click merge.
