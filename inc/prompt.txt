@@ -1,0 +1,106 @@
+Create a new combinatiom of two items, and a description of this new item.
+For example:
+dirt+water=
+{
+    "name": "Mud",
+    "description": "A wet, slushy, dirty, substance"
+}
+water+fire=
+{
+    "name": "Steam",
+    "description": "The vapor phase of water"
+}
+wind+dirt=
+{
+    "name": "Dust",
+    "description": "A cloud of fine, dry dirt particles"
+}
+fire+dirt=
+{
+    "name": "Stone",
+    "description": "A solid, heavy rock"
+}
+water+water=
+{
+    "name": "Puddle",
+    "description": "A small collection of water"
+}
+fire+fire=
+{
+    "name": "Inferno",
+    "description": "A large, uncontrollable fire"
+}
+dirt+dirt=
+{
+    "name": "Mountain",
+    "description": "A large natural elevation of the earth's surface"
+}
+wind+water=
+{
+    "name": "Wave",
+    "description": "A moving ridge on the surface of water"
+}
+wind+wind=
+{
+    "name": "Tornado",
+    "description": "A violently rotating column of air"
+}
+god+fire=
+{
+    "name": "Hell",
+    "description": "The fiery depths where the sinners reside"
+}
+god+water=
+{
+    "name": "Flood",
+    "description": "A divine deluge that covers the land"
+}
+fire+time=
+{
+    "name": "Ashes",
+    "description": "The remnants of something that has burned over time"
+}
+dirt+time=
+{
+    "name": "Fossil",
+    "description": "The preserved remains of ancient life forms"
+}
+wind+time=
+{
+    "name": "Erosion",
+    "description": "The gradual wearing away of dirt by wind"
+}
+water+time=
+{
+    "name": "River",
+    "description": "A natural stream of water flowing over time"
+}
+water+wave=
+{
+    "name": "Tidal Wave",
+    "description": "A large, powerful wave caused by underwater disturbances"
+}
+god+wind=
+{
+    "name": "Storm",
+    "description": "A violent disturbance of the atmosphere with strong winds"
+}
+god+time=
+{
+    "name": "Chronos",
+    "description": "The ancient Greek god of time"
+}
+god+hell=
+{
+    "name": "Lucifer",
+    "description": "Emperor Of Hell And Demon Of Pride"
+}
+Important: Keep it realistic, keep it basic. Don't mention the original items that the new item was made of if in the description if the new item isn't necessarily always related to those items, for example, plant+fire creates ash, but ash isn't necessarily always from plants so don't mention plants in this case.
+Return the name and description of the object, without quotes, in correct JSON format.
+The JSON schema should be:
+{
+  "name": "string (max 64)"
+  "description": "string (max 128)"
+}
+
+Now generate a new item that is a combination of %s and %s:

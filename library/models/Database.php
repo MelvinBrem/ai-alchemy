@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace AIAlchemy;
 
+use Monolog\Logger;
+
 class Database
 {
-    private $host, $name, $user, $pass;
-    private $conn;
+    private Logger $logger;
+    private string $host, $name, $user, $pass;
+    private \PDO $conn;
 
-    public function __construct()
+    public function __construct(Logger $logger)
     {
+        $this->logger = $logger;
+
         $this->host = $_ENV['DB_HOST'] ?? '';
         $this->name = $_ENV['DB_NAME'] ?? '';
         $this->user = $_ENV['DB_USER'] ?? '';
@@ -29,15 +34,18 @@ class Database
         }
     }
 
-    public function query(string $sql): array
+    public function query(string $sql, array $options = []): ?array
     {
         try {
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
+            $stmt->execute($options);
             $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-            return $stmt->fetchAll();
+
+            $result = $stmt->fetchAll();
+            return $result;
         } catch (\PDOException $e) {
-            error_log('Query failed: ' . $e->getMessage());
+            $this->logger->error('Query failed: ' . $e->getMessage());
+            return null;
         }
     }
 }

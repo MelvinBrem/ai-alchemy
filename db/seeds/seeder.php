@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Phinx\Seed\AbstractSeed;
 
-class ItemSeeder extends AbstractSeed
+class seeder extends AbstractSeed
 {
     /**
      * Run Method.
@@ -18,8 +18,8 @@ class ItemSeeder extends AbstractSeed
     {
         $itemData = [
             [
-                'slug' => 'earth',
-                'name' => 'Earth',
+                'slug' => 'dirt',
+                'name' => 'Dirt',
                 'initial' => true,
                 'description' => 'Dirty and solid'
             ],
@@ -69,12 +69,12 @@ class ItemSeeder extends AbstractSeed
 
         $combinationData = [
             [
-                'item_a' => 'earth',
+                'item_a' => 'dirt',
                 'item_b' => 'wind',
                 'result' => 'dust'
             ],
             [
-                'item_a' => 'earth',
+                'item_a' => 'dirt',
                 'item_b' => 'water',
                 'result' => 'mud'
             ],
@@ -85,7 +85,7 @@ class ItemSeeder extends AbstractSeed
             ],
             [
                 'item_a' => 'fire',
-                'item_b' => 'earth',
+                'item_b' => 'dirt',
                 'result' => 'lava'
             ]
         ];

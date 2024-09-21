@@ -20,14 +20,15 @@ require_once 'library/bootstrap.php';
         <div class="item-list" id="item-list">
         </div>
       </div>
-      <div class="col-12 col-md-9">
+      <div class="col-12 mt-2 mt-md-0 col-md-9">
         <div class="item-container" id="item-container">
         </div>
+        <button id="item-button" class="item-button my-2">
+          Merge
+        </button>
       </div>
     </div>
-
   </div>
-
   <div id="item-template">
     <div class="item"></div>
   </div>

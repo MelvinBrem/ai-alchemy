@@ -1,14 +1,11 @@
-import Groq from "groq-sdk";
-
 import "../scss/style.scss";
 import "./../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import getItems from "./modules/Items";
-import getCombinations from "./modules/Combinations";
 
-const groq = new Groq({
-  apiKey: import.meta.env.VITE_GROQ_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
+import getItems from "./modules/getItems";
+import getCombinations from "./modules/getCombinations";
+import createItemEl from "./modules/createItemEl";
+import refreshItemList from "./modules/refreshItemList";
+import mergeItems from "./modules/mergeItems";
 
 document.addEventListener("DOMContentLoaded", () => {
   //@ts-ignore
@@ -16,30 +13,19 @@ document.addEventListener("DOMContentLoaded", () => {
   //@ts-ignore
   const itemContainer: HTMLElement = document.querySelector("#item-container");
   //@ts-ignore
-  const itemTemplate: HTMLElement = document.querySelector("#item-template");
+  const itemButton: HTMLElement = document.querySelector("#item-button");
 
-  if (!itemList || !itemContainer || !itemTemplate) {
+  if (!itemList || !itemContainer || !itemButton) {
     console.error("Missing required elements");
     return;
   }
 
-  const ajaxUrl = `${window.location.href}library/ajax`;
-
   async function init() {
-    const items = await getItems(ajaxUrl, true);
-    const combinations = await getCombinations(ajaxUrl);
+    refreshItemList(itemList, itemContainer);
 
-    items.forEach((item) => {
-      if (!item.initial) return;
-      let itemEl = document.createElement("div");
-      itemEl.classList.add("item");
-      itemEl.innerText = item.name;
-
-      itemList.appendChild(itemEl);
-    });
-
-    combinations.forEach((element: Combination) => {
-      // console.log(element);
+    itemButton.addEventListener("click", async () => {
+      let newItem = await mergeItems(itemContainer);
+      console.log(newItem);
     });
   }
 

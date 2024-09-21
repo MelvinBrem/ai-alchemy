@@ -10,6 +10,15 @@ body {
   border: solid 1px var(--bs-border-color);
   padding: 0.25rem 0.5rem;
   width: fit-content;
+
+  &:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+}
+
+#item-template {
+  visibility: hidden;
 }
 
 .item-list {
@@ -22,6 +31,31 @@ body {
 
 .item-container {
   border: solid 1px var(--bs-border-color);
-  height: 100%;
+  height: fit-content;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.item-button {
+  border-width: 1px;
+  border-color: #333;
+  background-color: #fff;
+  outline: none;
+}
+
+.item,
+.item-button {
+  &:hover {
+    background-color: #888;
+    border-color: transparent;
+    color: white;
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: #555;
+  }
 }
