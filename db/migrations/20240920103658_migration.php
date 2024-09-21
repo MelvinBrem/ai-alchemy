@@ -19,9 +19,10 @@ final class Migration extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('items', ['id' => false, 'primary_key' => 'slug']);
-        $table->addColumn('slug', 'string', ['limit' => 64, 'null' => false])
-            ->addColumn('name', 'string', ['limit' => 64, 'null' => false])
+        $table = $this->table('items', ['id' => false, 'primary_key' => ['slug']]);
+        $table
+            ->addColumn('slug', 'string', ['limit' => 64, 'null' => false])
+            ->addColumn('name', 'string', ['limit' => 64])
             ->create();
 
         $table = $this->table('combinations');
@@ -30,6 +31,7 @@ final class Migration extends AbstractMigration
             ->addColumn('item_b', 'string', ['limit' => 64])
             ->addForeignKey('item_b', 'items', 'slug', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
             ->addColumn('result', 'string', ['limit' => 64])
+            ->addForeignKey('result', 'items', 'slug', ['delete' => 'NO_ACTION', 'update' => 'NO_ACTION'])
             ->create();
     }
 }

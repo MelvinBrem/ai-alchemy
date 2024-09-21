@@ -10,36 +10,18 @@ const groq = new Groq({
 
 document.addEventListener("DOMContentLoaded", () => {
   //@ts-ignore
-  const input: HTMLInputElement = document.querySelector("#input");
-  //@ts-ignore
-  const output: HTMLTextAreaElement = document.querySelector("#output");
-  if (!input || !output) return;
+  const test: HTMLTextAreaElement = document.querySelector("#test");
+  const url = `${window.location.href}/library/ajax`;
 
-  input.addEventListener("keydown", function (e) {
-    if (e.code === "Enter") {
-      // output.value += submitPrompt(input.value) + "\n";
-      submitPrompt(input.value).then((response) => {
-        output.value += response + "\n";
-      });
-    }
-  });
-
-  async function submitPrompt(inputValue: string): Promise<string> {
-    input.style.backgroundColor = "gray";
-    const chatCompletion = await getGroqChatCompletion(inputValue);
-    input.style.backgroundColor = "initial";
-    return chatCompletion.choices[0]?.message?.content || "";
-  }
-
-  async function getGroqChatCompletion(inputValue: string) {
-    return groq.chat.completions.create({
-      messages: [
-        {
-          role: "user",
-          content: inputValue,
-        },
-      ],
-      model: "llama3-8b-8192",
+  fetch(url + "/getItems.php", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
     });
-  }
+  test.value = "Hello World!";
 });

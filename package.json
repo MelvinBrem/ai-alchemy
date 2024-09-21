@@ -6,11 +6,12 @@
     "vite": "^5.4.6"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite & php -S localhost:8000",
     "build": "vite build"
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "groq-sdk": "^0.7.0"
+    "groq-sdk": "^0.7.0",
+    "vite-plugin-php": "^1.0.65"
   }
 }

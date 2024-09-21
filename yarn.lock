@@ -465,6 +465,11 @@ undici-types@~6.19.2:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
   integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
 
+vite-plugin-php@^1.0.65:
+  version "1.0.65"
+  resolved "https://registry.yarnpkg.com/vite-plugin-php/-/vite-plugin-php-1.0.65.tgz#859b47313cb5a1e2ee407137f590668d04ed0cb8"
+  integrity sha512-bvg9JrUovtsCsSeSEv2DadVdBjR8Unw052l9RayFJAwOuumidDyNCRSjly1JX4rXwFpf79fJqDFZ4YA0IR/lWw==
+
 vite@^5.4.6:
   version "5.4.6"
   resolved "https://registry.yarnpkg.com/vite/-/vite-5.4.6.tgz#85a93a1228a7fb5a723ca1743e337a2588ed008f"
