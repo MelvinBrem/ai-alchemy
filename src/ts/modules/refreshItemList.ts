@@ -1,4 +1,4 @@
-import getItems from "./getItems";
+import getAllItems from "./getAllItems";
 import createItemEl from "./createItemEl";
 
 export default async function refreshItemList(
@@ -12,16 +12,19 @@ export default async function refreshItemList(
 
   itemList.style.opacity = "0.2";
 
-  const itemData = await getItems();
+  const itemData = await getAllItems();
+  console.log(itemData);
 
   itemList.innerHTML = "";
 
   itemData.forEach((item) => {
     // @ts-ignore
-    if (!item.initial) return;
+    if (!item.unlocked) return;
     createItemEl(
       {
+        // @ts-ignore
         slug: item.slug,
+        // @ts-ignore
         name: item.name,
       },
       itemList

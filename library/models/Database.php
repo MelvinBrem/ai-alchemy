@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace AIAlchemy;
 
 use Monolog\Logger;
+use PDO;
 
 class Database
 {
     private Logger $logger;
     private string $host, $name, $user, $pass;
-    private \PDO $conn;
+    private PDO $conn;
 
     public function __construct(Logger $logger)
     {
@@ -27,8 +28,8 @@ class Database
     private function set_conn(): void
     {
         try {
-            $this->conn = new \PDO('mysql:host=' . $this->host . ';dbname=' . $this->name, $this->user, $this->pass);
-            $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->name, $this->user, $this->pass);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
             error_log('Connection failed: ' . $e->getMessage());
         }
@@ -39,12 +40,12 @@ class Database
         try {
             $stmt = $this->conn->prepare($sql);
             $stmt->execute($options);
-            $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-            $result = $stmt->fetchAll();
-            return $result;
+            $rows = $stmt->fetchAll();
+            return $rows;
         } catch (\PDOException $e) {
-            $this->logger->error('Query failed: ' . $e->getMessage());
+            $this->logger->error('Query "' . $sql . '" failed: ' . $e->getMessage());
             return null;
         }
     }

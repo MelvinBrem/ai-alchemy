@@ -1,14 +1,16 @@
 import refreshItemList from "./refreshItemList";
-
 export default async function mergeItems(itemContainer: HTMLElement) {
   const itemsToMerge = itemContainer.children;
   const itemSlugs = Array.from(itemsToMerge).map(
+    // @ts-ignore
     (item) => item.dataset.itemSlug
   );
 
+  console.log(itemSlugs);
+
   try {
     const response = await fetch(
-      window.location.href + "library/ajax/mergeItems.php",
+      window.location.href + "library/fetch/endpoint.php?action=merge_items",
       {
         method: "POST",
         headers: {
@@ -17,9 +19,9 @@ export default async function mergeItems(itemContainer: HTMLElement) {
         body: JSON.stringify(itemSlugs),
       }
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+
+    if (!response.ok) console.error(`HTTP error! status: ${response.status}`);
+
     const data = await response.json();
     return data;
   } catch (error) {

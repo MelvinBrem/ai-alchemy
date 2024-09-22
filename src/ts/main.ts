@@ -1,9 +1,6 @@
 import "../scss/style.scss";
 import "./../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-import getItems from "./modules/getItems";
-import getCombinations from "./modules/getCombinations";
-import createItemEl from "./modules/createItemEl";
 import refreshItemList from "./modules/refreshItemList";
 import mergeItems from "./modules/mergeItems";
 
@@ -25,7 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     itemButton.addEventListener("click", async () => {
       let newItem = await mergeItems(itemContainer);
-      console.log(newItem);
+      itemContainer.innerHTML = "";
+      refreshItemList(itemList, itemContainer);
     });
   }
 

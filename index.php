@@ -1,5 +1,5 @@
 <?php
-require_once 'library/bootstrap.php';
+require './library/bootstrap.php';
 ?>
 
 <!DOCTYPE html>

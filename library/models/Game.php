@@ -12,13 +12,13 @@ use GuzzleHttp\Client;
 
 class Game
 {
-    private ?Logger $logger;
+    private Logger $logger;
     private Database $database;
 
     public function __construct()
     {
         $this->logger = new Logger('gameLogger');
-        $this->logger->pushHandler(new StreamHandler(dirname(__DIR__, 2) . '/gameLogger.log', Level::Info));
+        $this->logger->pushHandler(new StreamHandler(dirname(__DIR__) . '/gameLogger.log', Level::Info));
 
         $this->set_database();
     }
@@ -28,32 +28,67 @@ class Game
         $this->database = new Database($this->logger);
     }
 
-    public function get_items()
+    public function get_item(string $slug): Item
     {
-        return $this->database->query('SELECT * FROM items');
+        $item_data = $this->database->query('SELECT * FROM items WHERE slug = ?', [$slug]);
+
+        return new Item($this->database, $item_data[0]['name'], $item_data[0]['description'], $item_data[0]['unlocked'] === 1, $item_data[0]['slug']);
     }
 
-    public function get_combinations()
+    public function get_all_items(): array
     {
-        return $this->database->query('SELECT * FROM combinations');
+        $all_item_data = $this->database->query('SELECT * FROM items');
+        $items = [];
+
+        foreach ($all_item_data as $item_data) {
+            $items[] = new Item($this->database, $item_data['name'], $item_data['description'], $item_data['unlocked'] === 1, $item_data['slug']);
+        }
+
+        return $items;
     }
 
-    public function get_combination(array $items)
+    public function get_combination_item(array $item_slugs): Item
     {
-        if (!is_array($items) || empty($items) || count($items) < 2) {
+        if (!is_array($item_slugs) || empty($item_slugs) || count($item_slugs) < 2) {
+            $this->logger->error('Invalid item slugs: ' . json_encode($item_slugs));
             return false;
         }
-        $item_a = $items[0];
-        $item_b = $items[1];
 
-        $query = 'SELECT * FROM combinations WHERE (item_a = ? AND item_b = ?) OR (item_a = ? AND item_b = ?)';
-        $result = $this->database->query($query, [$item_a, $item_b, $item_b, $item_a]);
-        return $result;
+        $item_a = $item_slugs[0];
+        $item_b = $item_slugs[1];
+
+        try {
+            $result = $this->database->query(
+                'SELECT * FROM combinations WHERE (item_a = ? AND item_b = ?) OR (item_a = ? AND item_b = ?)',
+                [
+                    $item_a,
+                    $item_b,
+                    $item_b,
+                    $item_a
+                ]
+            );
+        } catch (\Exception $e) {
+            $this->logger->error('Error fetching combination: ' . $e->getMessage());
+            return false;
+        }
+
+        // If no combination is found, generate a new one
+        if (empty($result)) {
+            return $this->generate_new_item($item_slugs);
+        }
+
+        $combination = new Combination($this->database, $result[0]['item_a'], $result[0]['item_b'], $result[0]['result']);
+
+        $item_data = $this->database->query('SELECT * FROM items WHERE slug = ?', [$combination->get_result_slug()]);
+        $item = new Item($this->database, $item_data[0]['name'], $item_data[0]['description'], $item_data[0]['unlocked'] === 1, $item_data[0]['slug']);
+        $item->unlock();
+
+        return $item;
     }
 
-    public function generate_combination(array $items)
+    public function generate_new_item(array $item_slugs): Item
     {
-        $prompt = vsprintf(file_get_contents(dirname(__DIR__, 2) . '/inc/prompt.txt'), $items) ?? 'Something went wrong';
+        $prompt = vsprintf(file_get_contents(dirname(__DIR__) . '/inc/prompt.txt'), $item_slugs);
         try {
             $client = new Client();
             $response = $client->post('https://api.groq.com/openai/v1/chat/completions', [
@@ -76,11 +111,28 @@ class Game
                 ],
             ]);
 
-            $this->logger->info($prompt);
+            $responseBody = $response->getBody()->getContents();
+            $result = json_decode($responseBody, true);
 
-            $result = json_decode($response->getBody()->getContents(), true);
-            $result = $result['choices'][0]['message']['content'];
-            return $result;
+            $this->logger->info('Response: ' . $result['choices'][0]['message']['content']);
+
+            if (!empty($result['choices'][0]['message']['content'])) {
+                $new_item_data = json_decode($result['choices'][0]['message']['content'], true);
+
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $new_item = new Item($this->database, $new_item_data['name'], $new_item_data['description'], true);
+                    $new_item->save();
+
+                    $combination = new Combination($this->database, $item_slugs[0], $item_slugs[1], $new_item->get_slug());
+                    $combination->save();
+                    return $new_item;
+                } else {
+                    $this->logger->error('Error decoding item data: ' . json_last_error_msg());
+                }
+            } else {
+                $this->logger->error('Invalid response structure: ' . $responseBody);
+            }
+            return false;
         } catch (\Exception $e) {
             $this->logger->error('Error generating combination: ' . $e->getMessage());
             return false;

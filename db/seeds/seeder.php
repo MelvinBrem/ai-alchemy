@@ -16,58 +16,58 @@ class seeder extends AbstractSeed
      */
     public function run(): void
     {
-        $itemData = [
+        $item_data = [
             [
                 'slug' => 'dirt',
                 'name' => 'Dirt',
-                'initial' => true,
-                'description' => 'Dirty and solid'
+                'description' => 'Loose soil found on the ground',
+                'unlocked' => true,
             ],
             [
                 'slug' => 'wind',
                 'name' => 'Wind',
-                'initial' => true,
-                'description' => 'Invisible and light'
+                'description' => 'Air in natural motion',
+                'unlocked' => true,
             ],
             [
                 'slug' => 'fire',
                 'name' => 'Fire',
-                'initial' => true,
-                'description' => 'Hot and dangerous'
+                'description' => 'A rapid oxidation process that produces heat and light',
+                'unlocked' => true,
             ],
             [
                 'slug' => 'water',
                 'name' => 'Water',
-                'initial' => true,
-                'description' => 'Wet and fluid'
+                'description' => 'A clear, colorless liquid essential for life',
+                'unlocked' => true,
             ],
             // Combinations
             [
                 'slug' => 'dust',
                 'name' => 'Dust',
-                'description' => 'Dry and dirty'
+                'description' => 'Fine particles of matter'
             ],
             [
                 'slug' => 'mud',
                 'name' => 'Mud',
-                'description' => 'Wet and dirty'
+                'description' => 'Wet, soft earth'
             ],
             [
                 'slug' => 'steam',
                 'name' => 'Steam',
-                'description' => 'Hot and wet'
+                'description' => 'Water vapor'
             ],
             [
                 'slug' => 'lava',
                 'name' => 'Lava',
-                'description' => 'Hot and liquid'
+                'description' => 'Molten ground'
             ],
         ];
 
         $items = $this->table('items');
-        $items->insert($itemData)->saveData();
+        $items->insert($item_data)->saveData();
 
-        $combinationData = [
+        $combination_data = [
             [
                 'item_a' => 'dirt',
                 'item_b' => 'wind',
@@ -91,6 +91,6 @@ class seeder extends AbstractSeed
         ];
 
         $combinations = $this->table('combinations');
-        $combinations->insert($combinationData)->saveData();
+        $combinations->insert($combination_data)->saveData();
     }
 }

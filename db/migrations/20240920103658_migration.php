@@ -23,8 +23,8 @@ final class Migration extends AbstractMigration
         $table
             ->addColumn('slug', 'string', ['limit' => 64, 'null' => false])
             ->addColumn('name', 'string', ['limit' => 64])
-            ->addColumn('initial', 'boolean', ['default' => false])
             ->addColumn('description', 'string', ['limit' => 255, 'null' => true])
+            ->addColumn('unlocked', 'boolean', ['default' => false])
             ->create();
 
         $table = $this->table('combinations', ['id' => false, 'primary_key' => ['item_a', 'item_b']]);
