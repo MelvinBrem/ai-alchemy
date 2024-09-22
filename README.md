@@ -4,26 +4,27 @@ A shittier version of the thing that already exists
 
 ## How to install
 
-<b>Create a database and enter the necessary credentials in the .env</b>
+<b>- Create the database:</b><br>
+&emsp;Charset:`utf8mb4`<br>
+&emsp;Collation: `utf8mb4_unicode_ci`
 
-<b>Install the Yarn and Composer packages</b>
+<b>- Enter the credentials in the .env</b><br>
+<b>- Correct the default database name(s) for all environments in phinx.php</b>
+
+<b>- Install the Yarn and Composer packages:</b>
 
 ```sh
 yarn install && composer install
 ```
 
-<b>Structure and seed the database with Phinx</b>
+<b>- Structure and seed the database with Phinx:</b>
 
 ```sh
 phinx migrate && phinx seed:run
 ```
 
-<b>Start the local development server(s)</b>
+<b>- Start the local development server(s):</b>
 
 ```sh
 yarn dev
 ```
-
-## How to play
-
-Add any combination of items to the right area and click merge.

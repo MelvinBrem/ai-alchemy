@@ -12,11 +12,11 @@ return
             'production' => [
                 'adapter' => 'mysql',
                 'host' => 'localhost',
-                'name' => 'production_db',
+                'name' => 'ai_alchemy',
                 'user' => 'root',
                 'pass' => '',
                 'port' => '3306',
-                'charset' => 'utf8',
+                'charset' => 'utf8mb4',
             ],
             'development' => [
                 'adapter' => 'mysql',
@@ -25,16 +25,16 @@ return
                 'user' => 'root',
                 'pass' => '',
                 'port' => '3306',
-                'charset' => 'utf8',
+                'charset' => 'utf8mb4',
             ],
             'testing' => [
                 'adapter' => 'mysql',
                 'host' => 'localhost',
-                'name' => 'testing_db',
+                'name' => 'ai_alchemy',
                 'user' => 'root',
                 'pass' => '',
                 'port' => '3306',
-                'charset' => 'utf8',
+                'charset' => 'utf8mb4',
             ]
         ],
         'version_order' => 'creation'

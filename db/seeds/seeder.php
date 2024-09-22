@@ -18,48 +18,53 @@ class seeder extends AbstractSeed
     {
         $item_data = [
             [
+                'name' => '💩 Dirt',
                 'slug' => 'dirt',
-                'name' => 'Dirt',
                 'description' => 'Loose soil found on the ground',
                 'unlocked' => true,
             ],
             [
+                'name' => '🌬️ Wind',
                 'slug' => 'wind',
-                'name' => 'Wind',
                 'description' => 'Air in natural motion',
                 'unlocked' => true,
             ],
             [
+                'name' => '🔥 Fire',
                 'slug' => 'fire',
-                'name' => 'Fire',
                 'description' => 'A rapid oxidation process that produces heat and light',
                 'unlocked' => true,
             ],
             [
+                'name' => '💦 Water',
                 'slug' => 'water',
-                'name' => 'Water',
                 'description' => 'A clear, colorless liquid essential for life',
                 'unlocked' => true,
             ],
+            [
+                'name' => '🌱 Plant',
+                'slug' => 'plant',
+                'description' => 'A living organism of the kind exemplified by trees, shrubs, herbs, grasses, ferns, and mosses',
+            ],
             // Combinations
             [
+                'name' => '💨 Dust',
                 'slug' => 'dust',
-                'name' => 'Dust',
                 'description' => 'Fine particles of matter'
             ],
             [
+                'name' => '💩 Mud',
                 'slug' => 'mud',
-                'name' => 'Mud',
                 'description' => 'Wet, soft earth'
             ],
             [
+                'name' => '💨 Steam',
                 'slug' => 'steam',
-                'name' => 'Steam',
                 'description' => 'Water vapor'
             ],
             [
+                'name' => '🌋 Lava',
                 'slug' => 'lava',
-                'name' => 'Lava',
                 'description' => 'Molten ground'
             ],
         ];
@@ -79,8 +84,8 @@ class seeder extends AbstractSeed
                 'result' => 'mud'
             ],
             [
-                'item_a' => 'fire',
-                'item_b' => 'water',
+                'item_a' => 'water',
+                'item_b' => 'fire',
                 'result' => 'steam'
             ],
             [

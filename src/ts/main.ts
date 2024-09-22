@@ -9,22 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const itemList: HTMLElement = document.querySelector("#item-list");
   //@ts-ignore
   const itemContainer: HTMLElement = document.querySelector("#item-container");
-  //@ts-ignore
-  const itemButton: HTMLElement = document.querySelector("#item-button");
 
-  if (!itemList || !itemContainer || !itemButton) {
+  if (!itemList) {
     console.error("Missing required elements");
     return;
   }
 
   async function init() {
     refreshItemList(itemList, itemContainer);
-
-    itemButton.addEventListener("click", async () => {
-      let newItem = await mergeItems(itemContainer);
-      itemContainer.innerHTML = "";
-      refreshItemList(itemList, itemContainer);
-    });
   }
 
   init();

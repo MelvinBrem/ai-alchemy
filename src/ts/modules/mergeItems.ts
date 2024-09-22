@@ -1,12 +1,12 @@
 import refreshItemList from "./refreshItemList";
-export default async function mergeItems(itemContainer: HTMLElement) {
-  const itemsToMerge = itemContainer.children;
-  const itemSlugs = Array.from(itemsToMerge).map(
+
+export default async function mergeItems(
+  items: NodeListOf<HTMLElement>
+): Promise<string | false> {
+  const itemSlugs = Array.from(items).map(
     // @ts-ignore
     (item) => item.dataset.itemSlug
   );
-
-  console.log(itemSlugs);
 
   try {
     const response = await fetch(
@@ -20,10 +20,13 @@ export default async function mergeItems(itemContainer: HTMLElement) {
       }
     );
 
-    if (!response.ok) console.error(`HTTP error! status: ${response.status}`);
+    if (!response.ok) {
+      console.error(`HTTP error! status: ${response.status}`);
+      return false;
+    }
 
-    const data = await response.json();
-    return data;
+    const itemData = await response.json();
+    return itemData;
   } catch (error) {
     console.error("Failed to merge items:", error);
     return false;
