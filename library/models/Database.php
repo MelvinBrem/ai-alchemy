@@ -31,11 +31,12 @@ class Database
             $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->name, $this->user, $this->pass);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
-            error_log('Connection failed: ' . $e->getMessage());
+            $this->logger->error('Connection failed: ' . $e->getMessage());
+            die('Connection failed: ' . $e->getMessage());
         }
     }
 
-    public function query(string $sql, array $options = []): ?array
+    public function query(string $sql, array $options = []): false|array
     {
         try {
             $stmt = $this->conn->prepare($sql);
@@ -46,7 +47,7 @@ class Database
             return $rows;
         } catch (\PDOException $e) {
             $this->logger->error('Query "' . $sql . '" failed: ' . $e->getMessage());
-            return null;
+            return false;
         }
     }
 }

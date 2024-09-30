@@ -1,13 +1,9 @@
 import refreshItemList from "./refreshItemList";
 
 export default async function mergeItems(
-  items: NodeListOf<HTMLElement>
+  itemA: String,
+  itemB: String
 ): Promise<string | false> {
-  const itemSlugs = Array.from(items).map(
-    // @ts-ignore
-    (item) => item.dataset.itemSlug
-  );
-
   try {
     const response = await fetch(
       window.location.href + "library/fetch/endpoint.php?action=merge_items",
@@ -16,7 +12,7 @@ export default async function mergeItems(
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(itemSlugs),
+        body: JSON.stringify([itemA, itemB]),
       }
     );
 

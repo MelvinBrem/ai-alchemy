@@ -1,6 +1,6 @@
 import getAllItems from "./getAllItems";
 import createItemEl from "./createItemEl";
-import mergeItems from "./mergeItems";
+import selectItem from "./selectItem";
 
 export default async function refreshItemList(
   itemList: HTMLElement,
@@ -26,6 +26,8 @@ export default async function refreshItemList(
         // @ts-ignore
         slug: item.slug,
         // @ts-ignore
+        emoji: item.emoji,
+        // @ts-ignore
         name: item.name,
       },
       itemList
@@ -41,43 +43,17 @@ export default async function refreshItemList(
       const newEl = createItemEl(
         {
           slug: target.getAttribute("data-item-slug"),
+          emoji: target.getAttribute("data-item-emoji"),
           name: target.getAttribute("data-item-name"),
         },
         itemContainer
       );
 
       newEl.addEventListener("click", (e) => {
-        e.preventDefault();
-        newEl.classList.toggle("selected");
+        const itemEl = e.target as HTMLElement;
+        if (!itemEl) return;
 
-        const selectedItems = itemContainer.querySelectorAll(
-          ".selected"
-        ) as NodeListOf<HTMLElement>;
-
-        if (selectedItems.length === 2) {
-          mergeItems(selectedItems).then((mergedItem) => {
-            if (false === mergedItem) {
-              itemContainer.querySelectorAll(".selected").forEach((item) => {
-                item.classList.remove("selected");
-              });
-            }
-
-            selectedItems.forEach((item) => {
-              itemContainer.removeChild(item);
-            });
-
-            createItemEl(
-              {
-                // @ts-ignore
-                slug: mergedItem.slug,
-                // @ts-ignore
-                name: mergedItem.name,
-              },
-              itemContainer
-            );
-          });
-          refreshItemList(itemList, itemContainer);
-        }
+        selectItem(itemEl, itemList, itemContainer);
       });
     });
   });

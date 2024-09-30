@@ -28,6 +28,7 @@ final class Migration extends AbstractMigration
         $table
             ->addColumn('id', 'integer')
             ->addColumn('slug', 'string', ['limit' => 64, 'null' => false])
+            ->addColumn('emoji', 'string', ['limit' => 64])
             ->addColumn('name', 'string', ['limit' => 64])
             ->addColumn('description', 'string', ['limit' => 255, 'null' => true])
             ->addColumn('unlocked', 'boolean', ['default' => false])

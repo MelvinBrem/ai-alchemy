@@ -18,53 +18,63 @@ class seeder extends AbstractSeed
     {
         $item_data = [
             [
-                'name' => '💩 Dirt',
                 'slug' => 'dirt',
+                'emoji' => '💩',
+                'name' => 'Dirt',
                 'description' => 'Loose soil found on the ground',
                 'unlocked' => true,
             ],
             [
-                'name' => '🌬️ Wind',
                 'slug' => 'wind',
+                'emoji' => '🌬️',
+                'name' => 'Wind',
                 'description' => 'Air in natural motion',
                 'unlocked' => true,
             ],
             [
-                'name' => '🔥 Fire',
                 'slug' => 'fire',
+                'emoji' => '🔥',
+                'name' => 'Fire',
                 'description' => 'A rapid oxidation process that produces heat and light',
                 'unlocked' => true,
             ],
             [
-                'name' => '💦 Water',
                 'slug' => 'water',
+                'emoji' => '💦',
+                'name' => 'Water',
                 'description' => 'A clear, colorless liquid essential for life',
                 'unlocked' => true,
             ],
             [
-                'name' => '🌱 Plant',
                 'slug' => 'plant',
+                'emoji' => '🌱',
+                'name' => 'Plant',
                 'description' => 'A living organism of the kind exemplified by trees, shrubs, herbs, grasses, ferns, and mosses',
+                'unlocked' => true,
             ],
             // Combinations
             [
-                'name' => '💨 Dust',
                 'slug' => 'dust',
+                'emoji' => '💨',
+                'name' => 'Dust',
                 'description' => 'Fine particles of matter'
             ],
             [
-                'name' => '💩 Mud',
                 'slug' => 'mud',
+                'emoji' => '💩',
+                'name' => 'Mud',
                 'description' => 'Wet, soft earth'
             ],
             [
-                'name' => '💨 Steam',
                 'slug' => 'steam',
+                'emoji' => '💨',
+                'name' => 'Steam',
                 'description' => 'Water vapor'
             ],
             [
-                'name' => '🌋 Lava',
                 'slug' => 'lava',
+                'emoji' => '🌋',
+                'name' => 'Lava',
                 'description' => 'Molten ground'
             ],
         ];

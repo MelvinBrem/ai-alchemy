@@ -10,16 +10,18 @@ class Item
 {
     private Database $database;
 
+    public $slug;
+    public $emoji;
     public $name;
     public $unlocked;
     public $description;
-    public $slug;
 
-    public function __construct(Database $database, string $name, string $description, bool $unlocked, string $slug = '')
+    public function __construct(Database $database, string $emoji, string $name, string $description, bool $unlocked, string $slug = '')
     {
         $this->database = $database;
 
         $this->slug = !empty($slug) ? $slug : generate_slug($name);
+        $this->emoji = $emoji;
         $this->name = $name;
         $this->unlocked = $unlocked;
         $this->description = $description;
@@ -44,6 +46,7 @@ class Item
             'INSERT INTO items (slug, name, unlocked, description) VALUES (?, ?, ?, ?)',
             [
                 $this->slug,
+                $this->emoji,
                 $this->name,
                 true,
                 $this->description

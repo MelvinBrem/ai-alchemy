@@ -2,7 +2,6 @@ import "../scss/style.scss";
 import "./../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import refreshItemList from "./modules/refreshItemList";
-import mergeItems from "./modules/mergeItems";
 
 document.addEventListener("DOMContentLoaded", () => {
   //@ts-ignore

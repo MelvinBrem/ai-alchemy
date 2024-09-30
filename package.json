@@ -10,6 +10,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@rollup/rollup-darwin-x64": "^4.22.4",
     "bootstrap": "^5.3.3",
     "vite-plugin-php": "^1.0.65"
   }

@@ -28,35 +28,40 @@ class Game
         $this->database = new Database($this->logger);
     }
 
-    public function get_item(string $slug): Item
+    public function get_item(string $slug): ?Item
     {
         $item_data = $this->database->query('SELECT * FROM items WHERE slug = ?', [$slug]);
 
-        return new Item($this->database, $item_data[0]['name'], $item_data[0]['description'], $item_data[0]['unlocked'] === 1, $item_data[0]['slug']);
+        if (empty($item_data)) {
+            $this->logger->error('get_item: Item not found: ' . $slug);
+            return null;
+        }
+
+        return new Item($this->database, $item_data[0]['emoji'], $item_data[0]['name'], $item_data[0]['description'], $item_data[0]['unlocked'] === 1, $item_data[0]['slug']);
     }
 
-    public function get_all_items(): array
+    public function get_all_items(): false|array
     {
-        $all_item_data = $this->database->query('SELECT * FROM items');
-        $items = [];
+        $all_item_data = $this->database->query('SELECT * FROM items ORDER BY id ASC');
+        if ($all_item_data === false || empty($all_item_data)) {
+            return false;
+        }
 
+        if (empty($all_item_data)) {
+            $this->logger->error('get_all_items: No items found');
+            return false;
+        }
+
+        $items = [];
         foreach ($all_item_data as $item_data) {
-            $items[] = new Item($this->database, $item_data['name'], $item_data['description'], $item_data['unlocked'] === 1, $item_data['slug']);
+            $items[] = new Item($this->database, $item_data['emoji'], $item_data['name'], $item_data['description'], $item_data['unlocked'] === 1, $item_data['slug']);
         }
 
         return $items;
     }
 
-    public function get_combination_item(array $item_slugs): Item
+    public function get_combination_item(string $item_a, string $item_b): false|Item
     {
-        if (!is_array($item_slugs) || empty($item_slugs) || count($item_slugs) < 2) {
-            $this->logger->error('Invalid item slugs: ' . json_encode($item_slugs));
-            return false;
-        }
-
-        $item_a = $item_slugs[0];
-        $item_b = $item_slugs[1];
-
         try {
             $result = $this->database->query(
                 'SELECT * FROM combinations WHERE (item_a = ? AND item_b = ?) OR (item_a = ? AND item_b = ?)',
@@ -72,23 +77,28 @@ class Game
             return false;
         }
 
-        // If no combination is found, generate a new one
         if (empty($result)) {
-            return $this->generate_new_item($item_slugs);
+            return $this->generate_new_item($item_a, $item_b);
         }
 
         $combination = new Combination($this->database, $result[0]['item_a'], $result[0]['item_b'], $result[0]['result']);
 
         $item_data = $this->database->query('SELECT * FROM items WHERE slug = ?', [$combination->get_result_slug()]);
-        $item = new Item($this->database, $item_data[0]['name'], $item_data[0]['description'], $item_data[0]['unlocked'] === 1, $item_data[0]['slug']);
+
+        if ($item_data === false || empty($item_data)) {
+            $this->logger->error('get_combination_item: Item not found: ' . $combination->get_result_slug());
+            return false;
+        }
+
+        $item = new Item($this->database, $item_data[0]['emoji'], $item_data[0]['name'], $item_data[0]['description'], $item_data[0]['unlocked'] === 1, $item_data[0]['slug']);
         $item->unlock();
 
         return $item;
     }
 
-    public function generate_new_item(array $item_slugs): Item
+    public function generate_new_item(string $item_a, string $item_b): false|Item
     {
-        $prompt = vsprintf(file_get_contents(dirname(__DIR__) . '/inc/prompt.txt'), $item_slugs);
+        $prompt = vsprintf(file_get_contents(dirname(__DIR__) . '/inc/prompt.txt'), [$item_a, $item_b]);
         try {
             $client = new Client();
             $response = $client->post('https://api.groq.com/openai/v1/chat/completions', [
@@ -113,22 +123,17 @@ class Game
 
             $responseBody = $response->getBody()->getContents();
             $result = json_decode($responseBody, true);
+            $new_item_data = json_decode($result['choices'][0]['message']['content'], true);
 
-            $this->logger->info('Response: ' . $result['choices'][0]['message']['content']);
+            $this->logger->info('Response: ' . json_encode($new_item_data));
 
-            if (!empty($result['choices'][0]['message']['content'])) {
-                $new_item_data = json_decode($result['choices'][0]['message']['content'], true);
+            if (!empty($new_item_data)) {
+                $new_item = new Item($this->database, $new_item_data['emoji'], $new_item_data['name'], $new_item_data['description'], true);
+                $new_item->save();
 
-                if (json_last_error() === JSON_ERROR_NONE) {
-                    $new_item = new Item($this->database, $new_item_data['name'], $new_item_data['description'], true);
-                    $new_item->save();
-
-                    $combination = new Combination($this->database, $item_slugs[0], $item_slugs[1], $new_item->get_slug());
-                    $combination->save();
-                    return $new_item;
-                } else {
-                    $this->logger->error('Error decoding item data: ' . json_last_error_msg());
-                }
+                $combination = new Combination($this->database, $item_a, $item_b, $new_item->get_slug());
+                $combination->save();
+                return $new_item;
             } else {
                 $this->logger->error('Invalid response structure: ' . $responseBody);
             }
